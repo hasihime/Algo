@@ -1,4 +1,3 @@
-package hw_day190717;
 
 import java.util.Scanner;
 
