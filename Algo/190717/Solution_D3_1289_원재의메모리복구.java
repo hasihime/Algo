@@ -1,4 +1,3 @@
-package com.ssafy.step1.pretest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
