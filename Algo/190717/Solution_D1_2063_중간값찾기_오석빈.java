@@ -1,6 +1,6 @@
 
 import java.util.Scanner;
-
+// https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV13zo1KAAACFAYh&categoryId=AV13zo1KAAACFAYh&categoryType=CODE
 public class Solution_D1_2063_중간값찾기_오석빈 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
