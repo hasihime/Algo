@@ -29,70 +29,75 @@ public class 불 {
 			map[i] = input.toCharArray();
 		}
 
-		int startjr = 0;
-		int startjc = 0;
-		int startfr = 0;
-		int startfc = 0;
-		boolean flag = false;
-		for (int i = 0; i < r; i++) {
-			for (int j = 0; j < c; j++) {
-				if (map[i][j] == 'J') {
-					startjr = i;
-					startjc = j;
-					flag = true;
-					break;
-				} else if (map[i][j] == 'F') {
-					startfr = i;
-					startfc = j;
-					flag = true;
-					break;
-				}
-			}
-			if (flag) {
-				break;
-			}
-		}
-
 		Queue<Integer> jr = new LinkedList<Integer>();
 		Queue<Integer> jc = new LinkedList<Integer>();
 		Queue<Integer> fr = new LinkedList<Integer>();
 		Queue<Integer> fc = new LinkedList<Integer>();
+		for (int i = 0; i < r; i++) {
+			for (int j = 0; j < c; j++) {
+				if (map[i][j] == 'J') {
+					jr.add(i);
+					jc.add(j);
+				} else if (map[i][j] == 'F') {
+					fr.add(i);
+					fc.add(j);
+				}
+			}
+		}
 
-		jr.add(startjr);
-		jc.add(startjc);
-		fr.add(startfr);
-		fc.add(startfc);
+
+
 
 		int result = 0;
-
-		while (jr.isEmpty()) {
-			int size=jr.size();
-			for (int i = 0; i < size; i++) {
-				int cjr=jr.poll();
-				int cjc=jc.poll();
-				int cfr=fr.poll();
-				int cfc=fc.poll();
-				
-				if (cjr<0||cjr==r||cjc<-1||cjc==c) {
-					System.out.println(result);
-					return;
-				}
-				//사람 먼저
+		
+		while (result<=10000) {
+			
+			int size = jr.size();
+			int fsize = fr.size();
+			
+			//불 이동
+			for (int i = 0; i < fsize; i++) {
+				int cfr = fr.poll();
+				int cfc = fc.poll();
+				fmap[cfr][cfc] = true;
+				// 다음 불
 				for (int j = 0; j < dc.length; j++) {
-					int nr=cjr+dr[j];
-					int nc=cjc+dc[j];
-					if (nr>=0&&nr<r&&nc>=0&&nc<c&&!jmap[nr][nc]&&map[nr][nc]=='.') {
-						jmap[nr][nc]=true;
+					int nr = cfr + dr[j];
+					int nc = cfc + dc[j];
+					if (nr >= 0 && nr < r && nc >= 0 && nc < c && !fmap[nr][nc]
+							&& (map[nr][nc] == '.' || map[nr][nc] == 'J')) {
+						map[nr][nc] = 'F';
+						fr.add(nr);
+						fc.add(nc);
+					}
+				}
+			} // for 끝
+			
+			
+			for (int i = 0; i < size; i++) {
+				int cjr = jr.poll();
+				int cjc = jc.poll();
+				jmap[cjr][cjc] = true;
+				
+				// 사람 먼저
+				for (int j = 0; j < dc.length; j++) {
+					int nr = cjr + dr[j];
+					int nc = cjc + dc[j];
+					if (nr >= 0 && nr < r && nc >= 0 && nc < c && !jmap[nr][nc] && map[nr][nc] == '.') {
+						map[nr][nc] = 'J';
 						jr.add(nr);
 						jc.add(nc);
 					}
-					
+					if (nr < 0 || nr >= r || nc < 0 || nc >= c) {
+						System.out.println(result+1);
+						return;
+					}
 				}
-				
 			}
 			
 
+			result++;
 		}
-
+		System.out.println("IMPOSSIBLE");
 	}
 }
