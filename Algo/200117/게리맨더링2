@@ -1,0 +1,138 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class 개리멘더링2 {
+
+	private static int N;
+	private static int[][] map;
+	private static int result;
+	private static int d1r;
+	private static int d1c;
+	private static int d2r;
+	private static int d2c;
+	private static int d3r;
+	private static int d3c;
+	private static int[] dr = { 1, 1, -1, -1 };
+	private static int[] dc = { -1, 1, 1, -1 };
+	private static int[] sr = { -1, 1, 0, 0 };
+	private static int[] sc = { 0, 0, -1, 1 };
+	private static int[][] visited;
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		N = Integer.parseInt(br.readLine());
+		map = new int[N][N];
+		for (int i = 0; i < N; i++) {
+			st = new StringTokenizer(br.readLine(), " ");
+			for (int j = 0; j < N; j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+
+		result = 0;
+		for (int i = 1; i < N - 1; i++) {
+			for (int j = 1; j < N - 1; j++) {
+				peekd1(i, j);
+
+			}
+		}
+
+	}
+
+	private static void peekd1(int row, int col) {
+		d1r = row;
+		d1c = col;
+		while (true) {
+			d1r++;
+			d1c--;
+			if (d1r == N || d1c == -1) {
+				break;
+			}
+			peekd2(row, col);
+		}
+
+	}
+
+	private static void peekd2(int row, int col) {
+		d2r = row;
+		d2c = col;
+		while (true) {
+			d2r++;
+			d2c++;
+			if (d2r == N || d2c == N) {
+				break;
+			}
+			d3r = (d2r + d1r) - row;
+			d3c = (d2c + d1c) - col;
+			if (d3r >= N || d3c >= N) {
+				continue;
+			} else {
+				getsum(row, col);
+			}
+		}
+
+	}
+
+	private static void getsum(int row, int col) {
+		visited = new int[N][N];
+
+		// 구역 5부터 칠한다.
+		int d5 = 0;
+		// 좌하
+		int nr = row;
+		int nc = col;
+		while (true) {
+			if (nr == d1r && nc == d1c) {
+				break;
+			}
+			visited[nr][nc] = 5;
+			nr += dr[0];
+			nc += dc[0];
+		}
+		while (true) {
+			if (nr == d3r && nc == d3c) {
+				break;
+			}
+			visited[nr][nc] = 5;
+			nr += dr[1];
+			nc += dc[1];
+		}
+		while (true) {
+			if (nr == d2r && nc == d2c) {
+				break;
+			}
+			visited[nr][nc] = 5;
+			nr += dr[2];
+			nc += dc[2];
+		}
+		while (true) {
+			if (nr == row && nc == col) {
+				break;
+			}
+			visited[nr][nc] = 5;
+			nr += dr[3];
+			nc += dc[3];
+		}
+		//내부를 채운다.
+		dfs(row+1,col);
+		System.out.println();
+		
+	}
+
+	private static void dfs(int row, int col) {
+		visited[row][col]=5;
+		for (int i = 0; i < 4; i++) {
+			int nr=row+sr[i];
+			int nc=col+sc[i];
+			if (visited[nr][nc]==0) {
+				
+				dfs(nr,nc);
+			}
+		}
+		
+	}
+
+}
