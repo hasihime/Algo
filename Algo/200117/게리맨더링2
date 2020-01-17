@@ -116,23 +116,28 @@ public class 개리멘더링2 {
 			nr += dr[3];
 			nc += dc[3];
 		}
-		//내부를 채운다.
-		dfs(row+1,col);
-		System.out.println();
-		
+		// 내부를 채운다.
+		dfs(row, col);
+		//각 구역별로 2중for문 돌린다. 대신 5인 구간은 넘긴다.
 	}
 
 	private static void dfs(int row, int col) {
-		visited[row][col]=5;
-		for (int i = 0; i < 4; i++) {
-			int nr=row+sr[i];
-			int nc=col+sc[i];
-			if (visited[nr][nc]==0) {
-				
-				dfs(nr,nc);
+		
+		for (int i = row + 1; i < d3r; i++) {
+			int cnt = 0;
+			for (int j = 0; j < N; j++) {
+				if (visited[i][j] == 5) {
+					cnt++;
+				}
+				if (cnt == 1) {
+					visited[i][j]=5;
+				}else if (cnt==2) {
+					break;
+				}
+
+
 			}
 		}
-		
 	}
 
 }
