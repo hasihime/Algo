@@ -21,7 +21,7 @@ public class 군대탈출 {
 		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
-		result=1000000000;
+		
 
 		map = new int[n][m];
 		for (int i = 0; i < n; i++) {
@@ -30,7 +30,7 @@ public class 군대탈출 {
 				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
-
+		result=map[0][0];
 		// 레벨을 이분탐색 후 bfs?
 		int start = 0;
 		int end = 1000000000;
@@ -60,6 +60,7 @@ public class 군대탈출 {
 			int cr=qr.poll();
 			int cc=qc.poll();
 			int cj=qj.poll();
+			if(map[0][0]>mid)return false;
 			if (cr==n-1&&cc==m-1) {
 				return true;
 			}
