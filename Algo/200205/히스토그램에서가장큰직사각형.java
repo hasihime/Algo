@@ -20,7 +20,6 @@ public class 히스토그램에서가장큰직사각형 {
 
 	private static Stack<rec> stack;
 	private static long result;
-	private static long preh;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
@@ -34,34 +33,31 @@ public class 히스토그램에서가장큰직사각형 {
 				break;
 
 			stack = new Stack<rec>();
+			
+			//시작과 끝에 0짜리 직사각형을 넣는다고 생각.
 			result = 0;
 			stack.add(new rec(0, 0));
-			preh=1000000000;
 			for (int i = 1; i <= n; i++) {
 				long curh = Integer.parseInt(st.nextToken());
-				work(i, curh);
+					while (!stack.isEmpty()&&stack.peek().height > curh) {
+						long curheight=stack.peek().height;
+						stack.pop();
+						long width = (i-stack.peek().idx-1);
+						result = Math.max(result, curheight*width);
+					}
+				stack.push(new rec(i, curh));
 			}
-			work(n + 1, 0);
+			long curh=0;
+			while (!stack.isEmpty()&&stack.peek().height > curh) {
+				long curheight=stack.peek().height;
+				stack.pop();
+				long width = ((n+1)-stack.peek().idx-1);
+				result = Math.max(result, curheight*width);
+			}
+			
 			sb.append(result).append("\n");
 		}
 		System.out.println(sb);
 	}
 
-	private static void work(int idx, long curh) {
-		if (stack.peek().height <= curh) {
-			stack.add(new rec(idx, curh));
-		} else {
-			while (stack.peek().height > curh) {
-				rec cur = stack.pop();
-				preh=cur.height-1;
-				long temp = (idx-cur.idx) * cur.height;
-				result = Math.max(result, temp);
-			}
-			if (curh<preh) {
-				result = Math.max(result, preh*idx);
-			}
-			stack.add(new rec(idx, curh));
-		}
-
-	}
 }
