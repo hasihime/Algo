@@ -1,4 +1,6 @@
 # Algo
 
-191111 백준 파이프놓기
+https://solved.ac/osb330/overview
+
+
 
