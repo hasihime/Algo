@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
-
+//https://www.acmicpc.net/problem/1167
 public class 트리의지름1167 {
 	public static class node {
 		int y;
